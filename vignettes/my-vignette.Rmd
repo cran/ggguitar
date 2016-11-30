@@ -1,0 +1,83 @@
+---
+title: "GGGuitar"
+author: "Casimir Saternos"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+This vignettes is a brief introduction to the ggguitar package.  The graphics are based on ggplot2 and processing on the tidyverse
+in general.  
+
+```{r}
+library(ggguitar)
+library(tibble)
+library(ggplot2)
+
+# Ignoring warnings
+options( warn = -1 )
+```
+
+Special thanks to Dr. Hadley Wickham and the crew at RStudio  whose work does all of the heavy lifting.
+
+## Examples of Tablature
+
+A chord in ggguitar is represented as a vector containing 6 elements.  Each element represents a string.  A numeric value
+represents the fret where a finger is placed.  Zero represents an open string, NA represents a string not played (either skipped or muted). 
+
+A G Major chord can be represented using the following vector.
+```{r}
+G_M <- c(3, 2, 0, 0, 0, 3)
+```
+
+The ggguitar method can be used to create the tablature for this chord.  The numbers in the vector represent fret positions with zeros indicating open strings.  By default the x and y axis are labeled as Strings and Frets along with associated numbers.
+```{r}
+ggguitar::tablature('G Major', G_M)
+```
+If a given string is not to be played, an NA is used rather than an integer representing the fret number.
+
+```{r}
+B_M <- c(NA, 2, 4, 4, 4, 2)
+ggguitar::tablature('B Major', B_M)
+```
+
+Both open strings and ignored/muted strings can be included in the same chord.
+```{r}
+C_M <- c(NA, 3, 2, 0, 1, 0)
+ggguitar::tablature('C Major', C_M)
+```
+
+Chords need not be restricted to first position.  In the next example, a bar chord further up the neck is represented.
+```{r}
+C_M_bar <- c(8, 10, 10, 9, 8, 8)
+ggguitar::tablature('C Major (bar)', C_M_bar)
+```
+
+Charts can be assigned to variables and then displayed
+together using grid.arrange.
+```{r, fig.width=6}
+D_M <- c(NA, NA, 0, 2, 3, 2)
+F_M7 <- c(NA, NA, 3, 2, 1, 0)
+e_m <- c(0, 2, 2, 0, 0, 0)
+a_m <- c(NA, 0, 2, 2, 1, 0)
+b_m <- c(NA, 2, 4, 4, 3, 2)
+
+G_Major <- tablature('G Major', G_M)
+C_Major <- tablature('C Major', C_M, TRUE, FALSE)
+D_Major <- tablature('D Major', D_M, FALSE, FALSE)
+e_minor <- tablature('e minor', e_m)
+a_minor <- tablature('a minor', a_m, TRUE, FALSE)
+b_minor <- tablature('b minor', b_m)
+
+gridExtra::grid.arrange(G_Major, C_Major, D_Major,
+              a_minor, b_minor, e_minor,
+              ncol = 3)
+```
+
+
+```{r}
+sessionInfo()
+```
