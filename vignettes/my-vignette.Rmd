@@ -29,14 +29,17 @@ A chord in ggguitar is represented as a vector containing 6 elements.  Each elem
 represents the fret where a finger is placed.  Zero represents an open string, NA represents a string not played (either skipped or muted). 
 
 A G Major chord can be represented using the following vector.
+
 ```{r}
 G_M <- c(3, 2, 0, 0, 0, 3)
 ```
 
 The ggguitar method can be used to create the tablature for this chord.  The numbers in the vector represent fret positions with zeros indicating open strings.  By default the x and y axis are labeled as Strings and Frets along with associated numbers.
+
 ```{r}
 ggguitar::tablature('G Major', G_M)
 ```
+
 If a given string is not to be played, an NA is used rather than an integer representing the fret number.
 
 ```{r}
@@ -56,6 +59,7 @@ C_M_bar <- c(8, 10, 10, 9, 8, 8)
 ggguitar::tablature('C Major (bar)', C_M_bar)
 ```
 
+## Combining Tablature Images
 Charts can be assigned to variables and then displayed
 together using grid.arrange.
 ```{r, fig.width=6}
@@ -75,6 +79,45 @@ b_minor <- tablature('b minor', b_m)
 gridExtra::grid.arrange(G_Major, C_Major, D_Major,
               a_minor, b_minor, e_minor,
               ncol = 3)
+```
+
+## Labeled Frets
+In place of dots on frets, labels can be assigned.  These can contain finger numbers, scale degrees or any other characters of interest.
+```{r}
+tablature("A7", c(5, NA, 5, 6, 5, NA), dot_labels=c("Root", NA, "7th", "3rd", "5th", NA))
+```
+
+The appearance of the labels varies depending on the size of the rendered image.  You can assign a size for these labels explicitly.
+
+```{r}
+tablature("A7", c(5, NA, 5, 6, 5, NA), dot_labels=c("R", NA, "7", "3", "5", NA), dot_label_size = 5)
+```
+
+## Scales
+
+Scales can be presented as well.
+
+```{r}
+G_M_scale <- c(3, 0,0,0,NA,NA,
+               NA,2,2,NA,NA,NA,
+               NA,3,4,NA,NA,NA)
+
+tablature('G Major Scale', 
+           G_M_scale,
+           dot_labels=c(2, 0,0,0,NA,NA,
+                        NA, 1,1,NA,NA,NA,
+                        NA, 2,3,NA,NA,NA), 
+           dot_label_size = 5)
+```
+
+## Chords for Left-handed Guitars
+
+The reverse function - called rev() - in Base-R can be used to render a left-handed version of a chord.  If you want the strings on the x-axis, these should be passed using the x_labels parameter.
+
+```{r}
+ggguitar::tablature('G Major (Left-handed)', 
+                    rev(G_M), 
+                    x_labels = c(1,2,3,4,5,6))
 ```
 
 

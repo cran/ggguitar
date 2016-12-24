@@ -43,5 +43,28 @@ gridExtra::grid.arrange(G_Major, C_Major, D_Major,
               ncol = 3)
 
 ## ------------------------------------------------------------------------
+tablature("A7", c(5, NA, 5, 6, 5, NA), dot_labels=c("Root", NA, "7th", "3rd", "5th", NA))
+
+## ------------------------------------------------------------------------
+tablature("A7", c(5, NA, 5, 6, 5, NA), dot_labels=c("R", NA, "7", "3", "5", NA), dot_label_size = 5)
+
+## ------------------------------------------------------------------------
+G_M_scale <- c(3, 0,0,0,NA,NA,
+               NA,2,2,NA,NA,NA,
+               NA,3,4,NA,NA,NA)
+
+tablature('G Major Scale', 
+           G_M_scale,
+           dot_labels=c(2, 0,0,0,NA,NA,
+                        NA, 1,1,NA,NA,NA,
+                        NA, 2,3,NA,NA,NA), 
+           dot_label_size = 5)
+
+## ------------------------------------------------------------------------
+ggguitar::tablature('G Major (Left-handed)', 
+                    rev(G_M), 
+                    x_labels = c(1,2,3,4,5,6))
+
+## ------------------------------------------------------------------------
 sessionInfo()
 
